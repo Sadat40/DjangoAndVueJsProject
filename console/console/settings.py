@@ -9,13 +9,26 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import os
+import json
 
 from pathlib import Path
+
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+with open(os.path.join(
+        BASE_DIR, 'console', 'secrets.json')) as f:
+    secrets = json.loads(f.read())
+def get_secret(setting, secrets=secrets):
+    '''Get the secret variable or return explicit exception.'''
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = 'Set the {0} environment variable'.format(setting)
+        raise ImproperlyConfigured(error_msg)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -31,12 +44,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'core',
+    'games',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+    'django_vite'
 ]
 
 MIDDLEWARE = [
@@ -74,9 +91,13 @@ WSGI_APPLICATION = 'console.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": get_secret('database_name'),
+        "USER": get_secret('database_user'),
+        "PASSWORD": get_secret('database_pwd'),
+        "HOST": get_secret('database_host'),
+        "PORT": get_secret('database_port'),
     }
 }
 
@@ -121,3 +142,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+GRAPH_MODELS = {
+ 'all_applications': True,
+ 'group_models': True,
+}
+
+
+LOGIN_REDIRECT_URL = "/movies/movies/"
+LOGOUT_REDIRECT_URL = "/"
+DJANGO_VITE_ASSETS_PATH = os.path.join(BASE_DIR, "core", "static", "vite")
+DJANGO_VITE_DEV_SERVER_PORT = get_secret("vite_dev_server_port")
+DJANGO_VITE_STATIC_URL_PREFIX = "vite/"
+DJANGO_VITE_DEV_MODE = True # This line has to be removed in production
