@@ -1,0 +1,17 @@
+4/10
+Sadat: Created environments
+
+4/11
+Sadat: Wrote out the django files
+
+4/12
+Sadat: Wrote out the vue files
+
+4/15
+Sadat: Started debugging and ran into an error that was solved by migrate on database 
+
+4/17
+Sadat: Continued debugging and solved a TypeError. Added user authentication
+
+4/18
+Sadat: Worked with Ms. Novillo to debug NoReverseMatch error
