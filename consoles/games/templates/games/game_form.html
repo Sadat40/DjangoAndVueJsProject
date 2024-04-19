@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load django_vite %}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary"
+            @click.prevent="submit_form"
+            :disabled="submitting_form">
+            Submit
+        </button>
+    
+</form> 
+
+{% comment %} <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <p>
+        <label for="id_release_date">Release date:</label>
+        <input type="hidden" name="release_date" :value="get_date_string" required=""
+        id="id_release_date">
+        <VueDatePicker style="display:inline-block;width:
+        300px;padding-bottom:10px;padding-left:10px" v-model="date"
+        :enable-time-picker="false"></VueDatePicker>
+        </p>
+    <input type="submit" value="Save">
+    
+</form> {% endcomment %}
+
+<div id="app">
+    <app>
+        
+    </app>
+</div>
+{% endblock content %}
+
+{% block js %}
+  {{ block.super }}
+  <script>
+       var ext_csrf_token = '{{ csrf_token }}'
+       var ext_form = `{{ form.as_p | safe}}`
+       var ext_game_dict = {{ game_dict | safe }}
+       var ext_character_list = {{ character_list | safe }}
+       var ext_update_bis_url = '{% url 'games:game_update_bis' object.id %}'
+  </script>
+  {% vite_hmr_client %}
+  {% vite_asset 'src/apps/game_edit/game_edit.js' %}
+{% endblock js %}
