@@ -40,7 +40,7 @@
        var ext_form = `{{ form.as_p | safe}}`
        var ext_game_dict = {{ game_dict | safe }}
        var ext_character_list = {{ character_list | safe }}
-       var ext_update_bis_url = '{% url 'games:game_update_bis' object.id %}'
+       {% comment %} var ext_update_bis_url = '{% url 'games:game_update_bis' object.id %}' {% endcomment %}
   </script>
   {% vite_hmr_client %}
   {% vite_asset 'src/apps/game_edit/game_edit.js' %}
