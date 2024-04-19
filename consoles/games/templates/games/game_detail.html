@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="{% url 'games:game_list' %}">Games list</a><br/>
+<a href="{% url 'games:game_update' object.id %}">Update Game</a><br/>
+<a href="{% url 'games:game_delete' object.id %}">Delete Game</a><br/>
+<h1>{{ object.name }}</h1>
+Characters:<br/>
+{% for character in object.characters.all %}
+{{character.name}}<br/>
+<br/>
+Release date: {{object.release_date|date:"%d %B %Y"}}<br/>
+{% endfor %}
+{% endblock content %}
