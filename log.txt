@@ -1,17 +1,27 @@
 4/10
 Sadat: Created environments
+Aiza: Did database diagram
 
 4/11
-Sadat: Wrote out the django files
+Sadat & Aiza: Wrote out the django files
 
 4/12
 Sadat: Wrote out the vue files
+Aiza: Started user authentication
 
 4/15
 Sadat: Started debugging and ran into an error that was solved by migrate on database 
+Aiza: Worked on MultiSelect dependency on another field
+
+4/16:
+Aiza: Worked on update form
 
 4/17
 Sadat: Continued debugging and solved a TypeError. Added user authentication
 
 4/18
 Sadat: Worked with Ms. Novillo to debug NoReverseMatch error
+Aiza: Debugged update form, ran into weird "NoneType has no attribute _meta Error"
+
+4/19
+Aiza: Finished debugging
